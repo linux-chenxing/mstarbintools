@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+
+from io import BufferedReader
+
+from mstarbintools import cis
+import argparse
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        prog='Mstar Bintools - CIS tool',
+        description='Tool for creating/viewing MStar CIS (Chip information structure?) blobs',
+        epilog='')
+
+    parser.add_argument('--infile', nargs='?', type=argparse.FileType('rb'))
+    parser.add_argument('--outfile', nargs='?', type=argparse.FileType('wb'))
+
+    args = parser.parse_args()
+
+    infile: BufferedReader = args.infile
+    outfile: BufferedReader = args.outfile
+
+    new_cis = cis.CIS()
+
+    if infile:
+        data = infile.read()
+        print("Dump of input CIS (%d bytes):" % len(data))
+        old_cis = cis.unpack(data)
+        old_cis.dump()
+        new_cis = old_cis
+
+    if outfile:
+        print("Writing updated CIS to output")
+        new_cis.dump()
+        outfile.write(new_cis.pack())
