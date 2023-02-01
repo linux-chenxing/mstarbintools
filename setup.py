@@ -4,7 +4,7 @@ setup(
     name='mstarbintools',
     version='0',
     packages=['mstarbintools'],
-    scripts=['mstar_cistool'],
+    scripts=['mstar_gcistool'],
     url='',
     license='GPLv3',
     author='Daniel Palmer',
